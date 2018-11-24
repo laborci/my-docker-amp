@@ -1,0 +1,24 @@
+version: '3'
+services:
+    php-apache:
+        build:
+            context: ./php-apache
+        ports:
+            - 80:80
+        volumes:
+            - ./../../:/htdocs
+            - ./../:/etc/apache2/sites-enabled
+        links:
+            - 'mariadb'
+    mariadb:
+        image: mariadb:10.1
+        ports:
+            - 3306:3306
+        volumes:
+            - mariadb:/var/lib/mysql
+        environment:
+            TZ: "Europe/Budapest"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "root"
+volumes:
+    mariadb:
